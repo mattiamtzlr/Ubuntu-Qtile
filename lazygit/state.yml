@@ -1,0 +1,19 @@
+lastupdatecheck: 0
+recentrepos:
+- /home/mattia/.config
+- /home/mattia/Documents/EPFL/MP2-2023
+- /home/mattia/Documents/EPFL/EPFL-CS107-Java
+- /home/mattia/Documents/EPFL/TUTO-2023
+- /home/mattia/Documents/Programming/Ray-Tracing
+- /home/mattia/Documents/conky
+- /home/mattia/Documents/EPFL/MP1-2023
+startuppopupversion: 5
+customcommandshistory:
+- git remote add origin git@github.com:MaGaMe19/Ubuntu-Qtile.git
+- git remote add origin git@github.com:MaGaMe19/Tuto-MP2-2023.git
+- git config pull.rebase false
+- git remote add origin git@github.com:MaGaMe19/MP1-2023.git
+- git remote add origin git@github.com:MaGaMe19/Conky-Config.git
+- git remote add origin git@github.com:MaGaMe19/MP2-2023.git
+hidecommandlog: false
+ignorewhitespaceindiffview: false
