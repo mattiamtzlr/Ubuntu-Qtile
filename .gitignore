@@ -29,3 +29,6 @@ GIMP/2.10
 Code
 ibus/bus
 qtile/__pycache__
+*.tmp.*
+mimeapps.list.new
+balena-etcher
