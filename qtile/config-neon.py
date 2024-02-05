@@ -30,6 +30,7 @@ from qtile_extras.widget.decorations import RectDecoration
 from libqtile.config import Click, Drag, Group, Key, KeyChord, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+import random
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -146,7 +147,7 @@ for i in groups:
         ]
     )
 
-highlight_color = "#8da3a6"
+highlight_color = "#4fd69c"
 controls_width = 40
 window_margin = 8
 spacer_width = 13
@@ -165,14 +166,33 @@ layouts = [
     ),
 ]
 
-widget_background="#324e52"
+widget_backgrounds = [
+    "#CB547E",
+    "#F5706A",
+    "#A25C8F",
+    "#F28B66",
+    "#975C99",
+    "#3B6EBB",
+    "#EBA068",
+    "#E02D59",
+    "#8391C4",
+]
 
-decor_groups = {
-    "decorations": [
-        RectDecoration(colour=widget_background, filled=True, radius=10, group=True,)
-    ],
-    "padding": 9
-}
+group_offset = random.randint(1, 100)
+random.shuffle(widget_backgrounds)
+decor_groups_list = []
+
+for color in widget_backgrounds:
+    decor_groups_list.append({
+        "decorations": [
+            RectDecoration(colour=color, filled=True, radius=10, group=True,)
+        ],
+        "padding": 9
+    })
+
+def decor_groups(group):
+    random.seed(group + group_offset)
+    return random.choice(decor_groups_list)
 
 widget_defaults = dict(
     font="CaskaydiaCove Nerd Font Mono",
@@ -183,33 +203,33 @@ extension_defaults = widget_defaults.copy()
 
 screens = [
     Screen(
-        wallpaper="~/Pictures/Wallpapers/mountains.png",
+        wallpaper="~/Pictures/Wallpapers/city.png",
         wallpaper_mode="fill",
         bottom=bar.Bar(
             [
-                widget.TextBox("", fontsize=30, name="layout_icon", **decor_groups),
+                widget.TextBox("", fontsize=30, name="layout_icon", **decor_groups(1)),
                 widget.Spacer(spacer_width),
-                widget.Spacer(7, **decor_groups),
+                widget.Spacer(7, **decor_groups(2)),
                 widget.GroupBox(
                     borderwidth=3,
                     highlight_color=['#5b6b69', '#4e6361'],
                     highlight_method='line',
-                    inactive='#AAAAAA',
+                    inactive='#232323',
                     this_current_screen_border=highlight_color,
-                    **decor_groups,
+                    **decor_groups(2),
                     padding_x=5,
                 ),
-                widget.Spacer(7, **decor_groups),
+                widget.Spacer(7, **decor_groups(2)),
                 widget.Spacer(spacer_width),
                 widget.WidgetBox(
                     widgets=[
                         widget.LaunchBar(
                             progs=[
-                                ('/snap/firefox/3358/default256.png', 'firefox', 'Firefox'),
+                                ('/snap/firefox/current/default256.png', 'firefox', 'Firefox'),
                                 ('/usr/share/code/resources/app/resources/linux/code.png', 'code', 'VS Code'),
                                 ('/opt/idea-IC-232.10072.27/bin/idea.png', 'idea.sh', 'IntelliJ IDEA'),
                             ],
-                            **decor_groups,
+                            **decor_groups(3),
                             padding_x=12,
                             padding_y=-1,
                             icon_size=25,
@@ -218,7 +238,7 @@ screens = [
                             padding_x=5,
                             foreground=highlight_color,
                             linewidth=2,
-                            **decor_groups
+                            **decor_groups(3)
                         ),
                         widget.LaunchBar(
                             progs=[
@@ -226,7 +246,7 @@ screens = [
                                 ('~/Pictures/icons/BW/system-reboot.png', 'reboot', 'Reboot'),
                                 ('~/Pictures/icons/BW/system-log-out.png', 'qshell:self.qtile.shutdown()', 'Log out'),
                             ],
-                            **decor_groups,
+                            **decor_groups(3),
                             padding_x=12,
                             padding_y=-2,
                             icon_size=25,
@@ -235,14 +255,14 @@ screens = [
                             padding_x=5,
                             foreground=highlight_color,
                             linewidth=2,
-                            **decor_groups
+                            **decor_groups(3)
                         ),
                         widget.Systray(
                             icon_size=22,
                             background="#000000",
-                            **decor_groups
+                            **decor_groups(3)
                         ),
-                        widget.Spacer(9, **decor_groups),
+                        widget.Spacer(9, **decor_groups(3)),
                         widget.Spacer(spacer_width), 
                     ],
                     close_button_location='left',
@@ -250,25 +270,25 @@ screens = [
                     text_open="󰅘",
                     fontsize=30,
                     name="taskbar",
-                    **decor_groups,
+                    **decor_groups(3),
                 ),
                 widget.Spacer(spacer_width),
                 widget.WindowName(
                     max_chars = 20,
-                    **decor_groups,
+                    **decor_groups(4),
                     width=210,
                     empty_group_string='󰍹 Desktop'
                 ),
                 widget.Spacer(),
-                widget.Chord(**decor_groups),
-                widget.Prompt(**decor_groups),
+                widget.Chord(**decor_groups(5)),
+                widget.Prompt(**decor_groups(5)),
                 widget.Spacer(spacer_width),
                 widget.WidgetBox(
                     widgets=[
                         widget.TextBox(
                             "󰻠",
                             fontsize=30,
-                            **decor_groups
+                            **decor_groups(6)
                         ),
                         widget.CPUGraph(
                             border_color=highlight_color,
@@ -277,13 +297,13 @@ screens = [
                             graph_color=highlight_color,
                             line_color=highlight_color,
                             fill_color=highlight_color+".6",
-                            **decor_groups
+                            **decor_groups(6)
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(6)),
                         widget.TextBox(
                             "󰍛",
                             fontsize=30,
-                            **decor_groups
+                            **decor_groups(6)
                         ),
                         widget.MemoryGraph(
                             border_color=highlight_color,
@@ -292,13 +312,13 @@ screens = [
                             graph_color=highlight_color,
                             line_color=highlight_color,
                             fill_color=highlight_color+".6",
-                            **decor_groups
+                            **decor_groups(6)
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(6)),
                         widget.TextBox(
                             "󰛶",
                             fontsize=30,
-                            **decor_groups
+                            **decor_groups(6)
                         ),
                         widget.NetGraph(
                             border_color=highlight_color,
@@ -308,13 +328,13 @@ screens = [
                             line_color=highlight_color,
                             bandwidth_type='up',
                             fill_color=highlight_color+".6",
-                            **decor_groups
+                            **decor_groups(6)
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(6)),
                         widget.TextBox(
                             "󰛴",
                             fontsize=30,
-                            **decor_groups
+                            **decor_groups(6)
                         ),
                         widget.NetGraph(
                             border_color=highlight_color,
@@ -324,7 +344,7 @@ screens = [
                             line_color=highlight_color,
                             bandwidth_type='down',
                             fill_color=highlight_color+".6",
-                            **decor_groups
+                            **decor_groups(6)
                         ),
                     ],
                     close_button_location='right',
@@ -332,7 +352,7 @@ screens = [
                     text_open="󰅘",
                     fontsize=30,
                     name="graphs",
-                    **decor_groups,
+                    **decor_groups(6),
                 ),
                 widget.Spacer(spacer_width),
                 widget.WidgetBox(
@@ -341,47 +361,47 @@ screens = [
                             "",
                             fontsize=28,
                             name="wifi-text",
-                            **decor_groups,
+                            **decor_groups(7),
                         ),
-                        widget.Spacer(-5, **decor_groups),
+                        widget.Spacer(-5, **decor_groups(7)),
                         widget.Wlan(
                             interface='wlp58s0',
                             format='{percent:2.0%} {essid}',
                             max_chars=10,
                             update_interval=20,
-                            **decor_groups,
+                            **decor_groups(7),
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(7)),
                         widget.Volume(
                             emoji=True,
                             emoji_list=['󰸈', '', '', ''],
                             fontsize=25,
                             step=10,
                             update_interval=0.1,
-                            **decor_groups
+                            **decor_groups(7)
                         ),
-                        widget.Spacer(-5, **decor_groups),
+                        widget.Spacer(-5, **decor_groups(7)),
                         widget.GenPollCommand(
                             width=controls_width + 15,
                             cmd="amixer sget Master | egrep '\[[0-9]{1,3}%\]' | awk -F'\[|\]' '{print $2}'",
                             shell=True,
                             update_interval=0.1,
-                            **decor_groups
+                            **decor_groups(7)
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(7)),
                         widget.TextBox(
                             "󰃠",
                             fontsize=25,
                             name="backlight-text",
-                            **decor_groups
+                            **decor_groups(7)
                         ),
-                        widget.Spacer(-5, **decor_groups),
+                        widget.Spacer(-5, **decor_groups(7)),
                         widget.Backlight(
                             width=controls_width + 15,
                             backlight_name='intel_backlight',
-                            **decor_groups
+                            **decor_groups(7)
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(7)),
                         widget.Battery(
                             width=controls_width + 32,
                             unknown_char='󰂑',
@@ -393,21 +413,21 @@ screens = [
                             low_percentage=0.25,
                             notify_below=25,
                             update_interval=20,
-                            **decor_groups,
+                            **decor_groups(7),
                         ),
-                        widget.Spacer(spacer_width, **decor_groups),
+                        widget.Spacer(spacer_width, **decor_groups(7)),
                         widget.TextBox(
                             "󰢑",
                             fontsize=25,
                             name="temp-text",
-                            **decor_groups
+                            **decor_groups(7)
                         ),
-                        widget.Spacer(-5, **decor_groups),
+                        widget.Spacer(-5, **decor_groups(7)),
                         widget.ThermalSensor(
                             update_interval=20,
-                            **decor_groups
+                            **decor_groups(7)
                         ),
-                        widget.Spacer(5, **decor_groups),
+                        widget.Spacer(5, **decor_groups(7)),
                     ],
                     close_button_location='right',
                     text_closed="󰧭",
@@ -415,12 +435,12 @@ screens = [
                     fontsize=30,
                     name="controls",
                     start_opened=True,
-                    **decor_groups,
+                    **decor_groups(7),
                 ),
                 widget.Spacer(spacer_width),
                 widget.Clock(
                     format="%a %d.%m.%y %H:%M",
-                    **decor_groups
+                    **decor_groups(8)
                 ),
             ],
             38,
